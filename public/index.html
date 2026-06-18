@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Brasero</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section id="authView" class="auth-view">
+        <div class="brand-block">
+          <p class="eyebrow">Salon prive</p>
+          <h1>Brasero</h1>
+          <p class="lead">Un endroit pour parler, partager des fichiers, lancer des sondages et garder la flamme du groupe.</p>
+        </div>
+
+        <form id="authForm" class="auth-card">
+          <label>
+            Email
+            <input id="emailInput" type="email" autocomplete="email" required />
+          </label>
+          <label>
+            Mot de passe
+            <input id="passwordInput" type="password" autocomplete="current-password" required minlength="6" />
+          </label>
+          <label>
+            Pseudo
+            <input id="displayNameInput" maxlength="24" autocomplete="nickname" />
+          </label>
+          <div class="split-actions">
+            <button id="signInButton" type="submit">Connexion</button>
+            <button id="signUpButton" type="button" class="secondary">Creer un compte</button>
+          </div>
+          <p id="setupWarning" class="setup-warning hidden">Ajoute ton URL et ta cle Supabase dans <code>public/config.js</code>.</p>
+        </form>
+      </section>
+
+      <section id="appView" class="workspace hidden">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">Salon general</p>
+            <h1>Brasero</h1>
+          </div>
+          <div class="profile-strip">
+            <div>
+              <strong id="currentName">...</strong>
+              <span id="streakText">0 flamme</span>
+            </div>
+            <button id="signOutButton" class="secondary" type="button">Sortir</button>
+          </div>
+        </header>
+
+        <nav class="tabs" aria-label="Sections">
+          <button class="tab active" data-tab="chat" type="button">Chat</button>
+          <button class="tab" data-tab="files" type="button">Fichiers</button>
+          <button class="tab" data-tab="polls" type="button">Sondages</button>
+          <button id="adminTab" class="tab hidden" data-tab="admin" type="button">Admin</button>
+        </nav>
+
+        <section id="blockedBanner" class="blocked-banner hidden">
+          Ton chat est bloque par un admin pour le moment.
+        </section>
+
+        <section id="chatPanel" class="panel">
+          <div class="chat-layout">
+            <aside class="rooms-column">
+              <div class="room-head">
+                <h2>Salons</h2>
+                <button id="newRoomToggle" class="secondary" type="button">Nouveau</button>
+              </div>
+              <form id="roomForm" class="room-form hidden">
+                <input id="roomNameInput" maxlength="60" placeholder="Nom du groupe" />
+                <select id="roomMembersSelect" multiple></select>
+                <button type="submit">Creer</button>
+              </form>
+              <ul id="roomList" class="room-list"></ul>
+            </aside>
+
+            <section class="conversation">
+              <div class="conversation-title">
+                <h2 id="activeRoomName">General</h2>
+              </div>
+              <ol id="messageList" class="messages"></ol>
+              <form id="messageForm" class="composer">
+                <input id="messageInput" maxlength="1200" placeholder="Ecris dans ce salon..." autocomplete="off" />
+                <button type="submit">Envoyer</button>
+              </form>
+            </section>
+          </div>
+        </section>
+
+        <section id="filesPanel" class="panel hidden">
+          <div class="tools-row">
+            <input id="fileSearchInput" type="search" placeholder="Rechercher un fichier ou une personne..." />
+          </div>
+          <form id="fileForm" class="file-form">
+            <input id="fileInput" type="file" />
+            <button type="submit">Ajouter</button>
+          </form>
+          <ul id="fileList" class="stack-list"></ul>
+        </section>
+
+        <section id="pollsPanel" class="panel hidden">
+          <form id="pollForm" class="poll-form">
+            <input id="pollQuestionInput" maxlength="160" placeholder="Question du sondage" />
+            <textarea id="pollOptionsInput" rows="4" placeholder="Une option par ligne"></textarea>
+            <button type="submit">Lancer le sondage</button>
+          </form>
+          <ul id="pollList" class="stack-list"></ul>
+        </section>
+
+        <section id="adminPanel" class="panel hidden">
+          <div class="admin-grid">
+            <form id="adminUserForm" class="admin-card">
+              <h2>Utilisateurs</h2>
+              <select id="adminUserSelect"></select>
+              <div class="split-actions">
+                <button id="toggleBlockButton" type="button">Bloquer chat</button>
+                <button id="refreshAdminButton" type="button" class="secondary">Actualiser</button>
+              </div>
+              <label>
+                Nouveau mot de passe
+                <input id="resetPasswordInput" type="password" minlength="6" placeholder="Minimum 6 caracteres" />
+              </label>
+              <button id="resetPasswordButton" type="button">Changer le mot de passe</button>
+            </form>
+
+            <section class="admin-card">
+              <h2>Fichiers envoyes</h2>
+              <input id="adminFileSearchInput" type="search" placeholder="Rechercher dans tous les fichiers..." />
+              <ul id="adminFileList" class="stack-list compact"></ul>
+            </section>
+
+            <section class="admin-card wide">
+              <h2>Discussions</h2>
+              <select id="adminRoomSelect"></select>
+              <ol id="adminMessageList" class="messages admin-messages"></ol>
+            </section>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <div id="toast" class="toast hidden" role="status"></div>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="/config.js"></script>
+    <script src="/app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,11 @@
+{
+  "name": "brasero",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Salon prive Supabase avec chat, fichiers, sondages et flammes.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  }
+}
